@@ -1,0 +1,25 @@
+<div class="jumbotron">
+  <h1 class="display-4">Bem vindo ao blog.</h1>
+  <p class="lead">Este e um blog que aborda diversas areas da teconologia.</p>
+  <a class="btn btn-primary btn-lg" href="#" role="button">Crie uma conta</a>
+</div>
+
+<hr>
+
+<h2>Postagens Recentes:</h2>
+{{#each postagens}}
+    <div class="card mt-4">
+        <div class="card-body">
+            <h3>{{titulo}}</h4>
+            <p>{{descricao}}</p>
+            <a href="/postagem/{{slug}}"><button class="btn btn-success">Leia mais</button></a>
+            <hr>
+            <small>Categoria: {{categoria.nome}}</small>
+            <br>
+            <small>Data de publicação: {{date}}</small>
+        </div>
+    </div>
+
+{{else}}
+    <h5 class="mt-4">Não há postagens.</h3>
+{{/each}}
