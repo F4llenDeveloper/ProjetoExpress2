@@ -29,15 +29,20 @@ app.use((req, res, next) => {
     .sort({ date: "desc" })
     .lean()
     .then((categorias) => {
-      categorias.map((categoria) => {
-        categoria.date = categoria.date.toLocaleString("pt-br");
-        return categoria;
-      });
-      res.locals.dropdownItems = categorias;
+      if (!categorias || categorias.length < 1) {
+        res.locals.categorias = [{ nome: "Nenhuma categoria", slug: "/" }];
+      } else {
+        categorias.map((categoria) => {
+          categoria.date = categoria.date.toLocaleString("pt-br");
+          return categoria;
+        });
+        res.locals.categorias = categorias;
+      }
+
       next();
     })
     .catch(() => {
-      res.locals.dropdownItems = [{ nome: "Nenhuma categoria", slug: "" }];
+      res.locals.categorias = [{ nome: "Nenhuma categoria", slug: "/" }];
       next();
     });
 });
@@ -45,22 +50,7 @@ app.use((req, res, next) => {
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.engine(
-  "handlebars",
-  engine({
-    helpers: {
-      dropdownItems: function (items) {
-        console.log(items);
-        if (!items || items?.length < 1) return "Nenhuma categoria.";
-        let result = "";
-        items.forEach(function (item) {
-          result += `<a class="dropdown-item" href="/categoria/${item.slug}">${item.nome}</a>`;
-        });
-        return result;
-      },
-    },
-  })
-);
+app.engine("handlebars", engine());
 
 app.set("view engine", "handlebars");
 app.set("views", "./views");
