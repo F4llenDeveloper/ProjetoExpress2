@@ -8,6 +8,7 @@ const flash = require("connect-flash");
 
 const { Categoria, Postagem } = require("./database");
 const adminRouter = require("./routes/admin");
+const usersRouter = require("./routes/usuarios");
 
 app.use(
   session({
@@ -134,6 +135,7 @@ app.get("/categoria/:slug", (req, res) => {
 });
 
 app.use("/admin", adminRouter);
+app.use("/usuarios", usersRouter);
 
 app.get("/404", (req, res) => {
   res.send("Erro 404");

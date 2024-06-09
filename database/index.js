@@ -13,4 +13,5 @@ mongoose.connect(settings.database_url)
 module.exports = {
     Categoria: require("./models/Categoria"),
     Postagem: require("./models/Postagem"),
+    Usuario: require("./models/Usuario"),
 };
